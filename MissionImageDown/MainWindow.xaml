@@ -1,0 +1,48 @@
+﻿<Window x:Class="MissionImageDown.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MissionImageDown"
+        mc:Ignorable="d"
+        Title="任务下载" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance Type=local:MainWindow, IsDesignTimeCreatable=False}">
+    <DockPanel Margin="10 0 10 10">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="25" >
+            <TextBlock>选择文件</TextBlock>
+            <TextBox Text="{Binding FileName}" Width="500"></TextBox>
+            <Button Command="{Binding SelectFileCommand}">打开文件</Button>
+            <Button Command="{Binding StartDownImage}">开始下载图片</Button>
+
+        </StackPanel>
+        <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden" >
+            <ItemsControl ItemsSource="{Binding RecordInfo}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:RecordInfo}">
+                        <StackPanel Orientation="Horizontal" Height="30">
+                            <TextBlock Text="{Binding Phone}" Width="150" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Text="{Binding UniqueKey}" Width="300" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Text="{Binding CTime,StringFormat=yyyy/MM/dd HH:mm:ss.fff}" Width="200" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Width="150" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="未下载"/>
+                                        <Setter Property="Foreground" Value="red"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding State}" Value="true">
+                                                <Setter Property="Text" Value="已下载"/>
+                                                <Setter Property="Foreground" Value="Green"/>
+
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
